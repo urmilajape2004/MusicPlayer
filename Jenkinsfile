@@ -10,7 +10,7 @@ pipeline {
 
         stage('Verify Files') {
             steps {
-                sh 'ls -l'
+                 bat 'dir'
             }
         }
 
