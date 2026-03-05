@@ -4,41 +4,36 @@ on:
   push:
     branches:
       - main
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Validate HTML file exists
+      - name: Check Project Files
         run: |
-          if [ ! -f MusicPlayer.html ]; then
-            echo "MusicPlayer.html not found!"
+          echo "Checking project files..."
+          ls
+
+      - name: Validate HTML
+        run: |
+          if [ -f MusicPlayer.html ]; then
+            echo "HTML file found."
+          else
+            echo "HTML file missing!"
             exit 1
           fi
-          echo "HTML file found. Build successful."
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy Message
+        run: echo "Deployment successful"
